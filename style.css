@@ -1,0 +1,16 @@
+html, body {
+
+}
+
+body {
+  display: flex;
+}
+
+#breadcrumbs {
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  text-align: center;
+  border: 1px dashed black;
+}

@@ -1,0 +1,12 @@
+Yahoo Finance
+  for query/endpoint:
+  - replace ' ' with %20
+
+Client ID:
+dj0yJmk9YjJwSTg4ZzI5eUpvJmQ9WVdrOVlXdGxWMG95TnpBbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD05ZQ--
+
+Client Secret:
+97573d5f7d2184b6bb9207857817d95151fc2fe2
+
+For querys use:
+  toQueryString()
