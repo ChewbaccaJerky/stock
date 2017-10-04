@@ -84,13 +84,43 @@ const STOCK_DATA = {
       {
         "name": "September 2017",
         "Average Stock": [
+          {"name": "Apple", "size": 115.48},
+          {"name": "Google", "size": 940.12},
+          {"name": "Square", "size": 22.16},
+          {"name": "Tesla", "size": 186.43},
+          {"name": "VMware", "size": 97.57}
+        ]
+      },
+      {
+        "name": "October 2017",
+        "Average Stock": [
+          {"name": "Apple", "size": 144.48},
+          {"name": "Google", "size": 970.12},
+          {"name": "Square", "size": 25.16},
+          {"name": "Tesla", "size": 200.43},
+          {"name": "VMware", "size": 91.57}
+        ]
+      },
+      {
+        "name": "November 2017",
+        "Average Stock": [
+          {"name": "Apple", "size": 111.48},
+          {"name": "Google", "size": 970.12},
+          {"name": "Square", "size": 27.16},
+          {"name": "Tesla", "size": 197.43},
+          {"name": "VMware", "size": 95.57}
+        ]
+      },
+      {
+        "name": "December 2017",
+        "Average Stock": [
           {"name": "Apple", "size": 110.48},
           {"name": "Google", "size": 980.12},
           {"name": "Square", "size": 20.16},
           {"name": "Tesla", "size": 190.43},
           {"name": "VMware", "size": 90.57}
         ]
-      },
+      }
     ]
 }
 

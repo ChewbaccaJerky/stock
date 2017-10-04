@@ -9873,6 +9873,13 @@ var Sunburst = function Sunburst(nodeData) {
       height = 500,
       radius = Math.min(width, height) / 2 - 10;
 
+  var b = {
+    w: 75,
+    h: 30,
+    s: 3,
+    t: 10
+  };
+
   var formatNumber = d3.format(",d");
 
   var x = d3.scaleLinear().range([0, 2 * Math.PI]);
@@ -9893,7 +9900,10 @@ var Sunburst = function Sunburst(nodeData) {
     return Math.max(0, y(d.y1));
   });
 
+  // setup sunburst
   var svg = d3.select("#sunburst").append("svg").attr("width", width).attr("height", height).append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  d3.select('#sunburst').on("mouseleave", mouseleave);
 
   var root = d3.hierarchy(nodeData);
   root.sum(function (d) {
@@ -9901,10 +9911,17 @@ var Sunburst = function Sunburst(nodeData) {
   });
 
   svg.selectAll("path").data(partition(root).descendants()).enter().append("path").attr("d", arc).style("fill", function (d) {
-    return color((d.children ? d : d.parent).data.name);
-  }).on("click", click).on("mouseover", mouseover).on("").append("title").text(function (d) {
+    if (d.parent === null) {
+      return "#FFF";
+    } else {
+      return color((d.children ? d : d.parent).data.name);
+    }
+  }).on("click", click).on("mouseover", mouseover).append("title").text(function (d) {
     return d.data.name + "\n" + formatNumber(d.value);
   });
+
+  // setup breadcrumbs
+  // initializeBreadcrumbs();
 
   function click(d) {
     svg.transition().duration(750).tween("scale", function () {
@@ -9922,26 +9939,25 @@ var Sunburst = function Sunburst(nodeData) {
   }
 
   function mouseover(d) {
-
-    d3.select('#breadcrumbs').text("");
-
-    d3.select('#breadcrumbs').style('visibility', '');
-
+    d3.selectAll('h1').remove();
     // getAncestors Array sequence
     var parents = getParents(d);
-
-    // drop opacity of all paths
-    d3.selectAll('path').attr('opacity', '0.3');
-
-    d3.selectAll('path').filter(function (node) {
-      console.log(node);
-      return parents.indexOf(node) >= 0;
-    }).style("opacity", "1");
     updateBreadcrumbs(parents);
+    // drop opacity of all paths
+    d3.selectAll('path').style('opacity', 0.3);
+
+    svg.selectAll('path').filter(function (node) {
+      return parents.indexOf(node) >= 0;
+    }).style("opacity", 1);
   }
 
   function mouseleave(d) {
-    d3.selectAll('path').attr('opacity', '1');
+    // d3.select('#trail')
+    // .attr('visibility', 'hidden');
+
+    d3.selectAll('h1').remove();
+
+    d3.selectAll('path').style('opacity', 1);
   }
 
   function getParents(node) {
@@ -9957,19 +9973,59 @@ var Sunburst = function Sunburst(nodeData) {
   }
 
   // function initializeBreadcrumbs() {
-  //   const trail = d3.select('#breadcrumbs').append('svg:svg')
+  //   const trail = d3.select('.sunburst-container #breadcrumbs').append('svg:svg')
   //                   .attr('width', width)
   //                   .attr('height', 60)
   //                   .attr('id', 'trail');
   // }
 
+  function breadcrumbPoints(d, i) {
+    var points = [];
+    var widthForThisLabel = b.w;
+
+    points.push("0,0");
+    points.push(widthForThisLabel + ",0");
+    points.push(widthForThisLabel + b.t + "," + b.h / 2);
+    points.push(widthForThisLabel + "," + b.h);
+    points.push("0," + b.h);
+    if (i > 0) {
+      points.push(b.t + "," + b.h / 2);
+    }
+    return points.join(" ");
+  }
+
   function updateBreadcrumbs(nodeArray) {
     var selector = d3.select('#breadcrumbs');
     var text = "";
     for (var i in nodeArray) {
-      text = nodeArray[i].data.size ? "$" + nodeArray[i].data.size : nodeArray[i].data.name + " ";
+      text = nodeArray[i].data.size ? nodeArray[i].data.name + " $" + nodeArray[i].data.size : "" + nodeArray[i].data.name;
       selector.append('h1').text(text);
     }
+    // const g = d3.select('#trail')
+    //             .selectAll("g")
+    //             .data(nodeArray, function(d){
+    //               return d.data.name + d.depth;
+    //             });
+    //
+    // const entering = g.enter().append("svg:g");
+    //
+    // entering.append("svg:polygon")
+    //   .attr("points", breadcrumbPoints)
+    //   .style("fill", function(d){
+    //     return color(d.data.name);
+    // });
+    //
+    // // add attributes
+    // entering.append("svg:text")
+    //   .attr("x", (b.w + b.t) / 2)
+    //   .attr("y", b.h / 2)
+    //   .attr("dy", "0.35em")
+    //   .attr("text-anchor", "middle")
+    //   .text(function(d) {
+    //     return d.name;
+    // });
+    //
+    // d3.select("#trail").style("visibility", "");
   }
 
   d3.select(self.frameElement).style("height", height + "px");
@@ -10015,6 +10071,15 @@ var STOCK_DATA = {
     "Average Stock": [{ "name": "Apple", "size": 135.48 }, { "name": "Google", "size": 949.14 }, { "name": "Square", "size": 15.88 }, { "name": "Tesla", "size": 189.19 }, { "name": "VMware", "size": 72.27 }]
   }, {
     "name": "September 2017",
+    "Average Stock": [{ "name": "Apple", "size": 115.48 }, { "name": "Google", "size": 940.12 }, { "name": "Square", "size": 22.16 }, { "name": "Tesla", "size": 186.43 }, { "name": "VMware", "size": 97.57 }]
+  }, {
+    "name": "October 2017",
+    "Average Stock": [{ "name": "Apple", "size": 144.48 }, { "name": "Google", "size": 970.12 }, { "name": "Square", "size": 25.16 }, { "name": "Tesla", "size": 200.43 }, { "name": "VMware", "size": 91.57 }]
+  }, {
+    "name": "November 2017",
+    "Average Stock": [{ "name": "Apple", "size": 111.48 }, { "name": "Google", "size": 970.12 }, { "name": "Square", "size": 27.16 }, { "name": "Tesla", "size": 197.43 }, { "name": "VMware", "size": 95.57 }]
+  }, {
+    "name": "December 2017",
     "Average Stock": [{ "name": "Apple", "size": 110.48 }, { "name": "Google", "size": 980.12 }, { "name": "Square", "size": 20.16 }, { "name": "Tesla", "size": 190.43 }, { "name": "VMware", "size": 90.57 }]
   }]
 };
@@ -10085,19 +10150,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, _sunburst2.default)(_data2.default);
 
-yahooApiUtil.fetchStockQuotes().then(function (res) {
-  var barInfo = parseForBar(res.query.results.quote);
-  (0, _bar2.default)(barInfo);
-});
-
-var parseForBar = function parseForBar(quotes) {
-  var barInfo = [];
-  var temp = {};
-  for (var i in quotes) {
-    temp = { "name": quotes[i].symbol, "value": parseInt(quotes[i].Ask) };
-    barInfo.push(temp);
-  }
-};
+// yahooApiUtil.fetchStockQuotes().then((res)=> {
+//   let barInfo = parseForBar(res.query.results.quote);
+//   Bar(barInfo);
+// });
+//
+// const parseForBar = (quotes) => {
+//   let barInfo = [];
+//   let temp = {};
+//   for(let i in quotes) {
+//     temp = {"name": quotes[i].symbol, "value": parseInt(quotes[i].Ask)};
+//     barInfo.push(temp);
+//   }
+// };
 
 /***/ }),
 /* 177 */
