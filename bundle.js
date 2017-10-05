@@ -9796,8 +9796,8 @@ var Sunburst = function Sunburst(nodeData) {
       radius = Math.min(width, height) / 2 - 10;
 
   var b = {
-    w: 75,
-    h: 30,
+    w: 100,
+    h: 35,
     s: 3,
     t: 10
   };
@@ -9808,7 +9808,7 @@ var Sunburst = function Sunburst(nodeData) {
 
   var y = d3.scaleSqrt().range([0, radius]);
 
-  var color = d3.scaleOrdinal(d3.schemeCategory20);
+  var color = d3.scaleOrdinal(d3.schemeCategory20c);
 
   var partition = d3.partition();
 
@@ -9836,14 +9836,14 @@ var Sunburst = function Sunburst(nodeData) {
     if (d.parent === null) {
       return "#FFF";
     } else {
-      return color((d.children ? d : d.parent).data.name);
+      return color(d.data.name);
     }
   }).on("click", click).on("mouseover", mouseover).append("title").text(function (d) {
     return d.data.name + "\n" + formatNumber(d.value);
   });
 
   // setup breadcrumbs
-  // initializeBreadcrumbs();
+  initializeBreadcrumbs();
 
   function click(d) {
     svg.transition().duration(750).tween("scale", function () {
@@ -9866,7 +9866,7 @@ var Sunburst = function Sunburst(nodeData) {
     var parents = getParents(d);
     updateBreadcrumbs(parents);
     // drop opacity of all paths
-    d3.selectAll('path').style('opacity', 0.3);
+    d3.selectAll('#sunburst svg g path').style('opacity', 0.3);
 
     svg.selectAll('path').filter(function (node) {
       return parents.indexOf(node) >= 0;
@@ -9894,12 +9894,9 @@ var Sunburst = function Sunburst(nodeData) {
     return path;
   }
 
-  // function initializeBreadcrumbs() {
-  //   const trail = d3.select('.sunburst-container #breadcrumbs').append('svg:svg')
-  //                   .attr('width', width)
-  //                   .attr('height', 60)
-  //                   .attr('id', 'trail');
-  // }
+  function initializeBreadcrumbs() {
+    var trail = d3.select('.sunburst-container #breadcrumbs').append('svg:svg').attr('width', width).attr('height', 60).attr('id', 'trail');
+  }
 
   function breadcrumbPoints(d, i) {
     var points = [];
@@ -9917,37 +9914,36 @@ var Sunburst = function Sunburst(nodeData) {
   }
 
   function updateBreadcrumbs(nodeArray) {
-    var selector = d3.select('#breadcrumbs');
-    var text = "";
-    for (var i in nodeArray) {
-      text = nodeArray[i].data.size ? nodeArray[i].data.name + " $" + nodeArray[i].data.size : "" + nodeArray[i].data.name;
-      selector.append('h2').text(text);
-    }
-    // const g = d3.select('#trail')
-    //             .selectAll("g")
-    //             .data(nodeArray, function(d){
-    //               return d.data.name + d.depth;
-    //             });
-    //
-    // const entering = g.enter().append("svg:g");
-    //
-    // entering.append("svg:polygon")
-    //   .attr("points", breadcrumbPoints)
-    //   .style("fill", function(d){
-    //     return color(d.data.name);
-    // });
-    //
-    // // add attributes
-    // entering.append("svg:text")
-    //   .attr("x", (b.w + b.t) / 2)
-    //   .attr("y", b.h / 2)
-    //   .attr("dy", "0.35em")
-    //   .attr("text-anchor", "middle")
-    //   .text(function(d) {
-    //     return d.name;
-    // });
-    //
-    // d3.select("#trail").style("visibility", "");
+    // let selector = d3.select('#breadcrumbs');
+    // let text = "";
+    // for(let i in nodeArray) {
+    //   text = nodeArray[i].data.size ? `${nodeArray[i].data.name} $${nodeArray[i].data.size}` : `${nodeArray[i].data.name}`;
+    //   selector.append('h2')
+    //           .text(text);
+    // }
+
+    var g = d3.select('#trail').selectAll("g").data(nodeArray, function (d) {
+      return d.data.name + d.depth;
+    });
+
+    var entering = g.enter().append("svg:g");
+
+    entering.append("svg:polygon").attr("points", breadcrumbPoints).style("fill", function (d) {
+      return color(d.data.name);
+    });
+
+    // add attributes
+    entering.append("svg:text").style('fill', '#FFF').attr("x", (b.w + b.t) / 2).attr("y", b.h / 2).attr("dy", "0.35em").attr("text-anchor", "middle").text(function (d) {
+      return d.data.name;
+    });
+
+    d3.select('#trail').selectAll('#trail g').attr('transform', function (d) {
+      return "translate(" + (d.depth - 1) * (b.w + b.s) + ", 0)";
+    });
+
+    g.exit().remove();
+
+    d3.select("#trail").style("visibility", "");
   }
 
   d3.select(self.frameElement).style("height", height + "px");
@@ -10074,20 +10070,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-(0, _sunburst2.default)(_data2.default);
 var STOCK_SYMS = ["AAPL", "GOOGL", "SQ", "TSLA", "VMW"];
+
+(0, _sunburst2.default)(_data2.default);
+makeLineGraph(STOCK_SYMS[0]);
 var temp = "";
 var i = 0;
-var stopVar = setInterval(function () {
-  makeLineGraph(STOCK_SYMS[0]);
-  temp = STOCK_SYMS.shift();
-  STOCK_SYMS.push(temp);
-  i++;
-  // if(i === 10) {
-  //   console.log("STOPPP!!!!");
-  //   clearInterval(stopVar);
-  // }
-}, 3000);
+// let stopVar = setInterval(function(){
+//   makeLineGraph(STOCK_SYMS[0]);
+//   temp = STOCK_SYMS.shift();
+//   STOCK_SYMS.push(temp);
+//   i++;
+// }, 3000);
+
+document.getElementById('searchbar-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var searchParams = e.currentTarget.searchedStock.value;
+  makeLineGraph(searchParams.toUpperCase());
+});
 
 window.fetchStockQuote = _alphaUtilAPI.fetchStockQuote;
 
@@ -33449,13 +33449,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var key = "B2GAJIV5VTL4C0CT";
 
 var fetchStockQuote = exports.fetchStockQuote = function fetchStockQuote(symbol) {
-  var url = "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=" + symbol + "&interval=1min&apikey=" + key;
+  var url = "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=" + symbol + "&apikey=" + key;
 
   return _jquery2.default.ajax({
     method: "GET",
     url: url
   });
 };
+
+// https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=GOOGL&apikey=B2GAJIV5VTL4C0CT
 
 /***/ }),
 /* 469 */
@@ -33486,7 +33488,7 @@ var LineGraph = function LineGraph(data) {
   // low
 
   // Add padding
-  d3.select('#line-graph').style('padding', '1em');
+  d3.select('#line-graph').style('padding', '3em');
 
   var selector = d3.select('#line-graph svg');
   if (selector._groups[0] !== null) {
@@ -33496,7 +33498,7 @@ var LineGraph = function LineGraph(data) {
   var symbol = Object.keys(data)[0];
 
   // set size of graph
-  var width = 700,
+  var width = 675,
       height = 400;
 
   // time format
@@ -33532,7 +33534,7 @@ var LineGraph = function LineGraph(data) {
   });
 
   // Append SVG to #line-graph div
-  var svg = d3.select('#line-graph').append('svg').attr('width', width).attr('height', height).style('padding', '3em').append('g');
+  var svg = d3.select('#line-graph').append('svg').attr('width', width).attr('height', height).style('padding', '2em').append('g');
 
   function draw(data, symbol) {
     data = data[symbol];
@@ -33548,11 +33550,9 @@ var LineGraph = function LineGraph(data) {
     });
 
     //sort by date
-    // console.log(data);
     data.sort(function (a, b) {
       return a.date - b.date;
     });
-    // console.log(data);
     // scale the range
     x.domain(d3.extent(data, function (d) {
       return d.date;
@@ -33563,7 +33563,9 @@ var LineGraph = function LineGraph(data) {
 
     // Add the lines path.
     svg.append("path").data([data]).attr("class", "line").style('stroke', 'red').attr("d", openLine);
+
     svg.append("path").data([data]).attr("class", "line").attr("d", highLine);
+
     // svg.append("path")
     //     .data([data])
     //     .attr("class", "line")
@@ -33574,12 +33576,7 @@ var LineGraph = function LineGraph(data) {
     //     .attr("d", closeLine);
 
     // add x axis
-    svg.append('g').attr('class', 'x axis').attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m-%d")));
-    // .selectAll("text")
-    // .style("text-anchor", "end")
-    // .attr("dx", "-.8em")
-    // .attr("dy", ".15em")
-    // .attr("transform", "rotate(-65)");
+    svg.append('g').attr('class', 'x axis').attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m-%d"))).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-20)");
 
     // add y axis
     svg.append("g").attr('class', 'y axis').call(d3.axisLeft(y));
@@ -33588,15 +33585,10 @@ var LineGraph = function LineGraph(data) {
     d3.select('#company').text(symbol);
   }
 
-  // function update(newData) {
-  //   let g = d3.select('#line-graph g').data(newData, function(d){
-  //     return d;
-  //   });
-  //
-  //   g.exit().remove();
-  // }
-
   draw(data, symbol);
+
+  //remove loader
+  d3.select('.loader').remove();
   return 0;
 };
 

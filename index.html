@@ -13,19 +13,27 @@
     <link type="text/css" rel="stylesheet" href="./style.css"/>
   </head>
   <body>
-
-    <!-- sunburst container -->
-    <div class="sunburst-container">
-      <div id="breadcrumbs"></div>
-      <div id="sunburst"></div>
-    </div>
-
-    <div class="line-graph-container">
-      <div id="line-graph">
-        <h1 id="company"></h1>
+    <div class="searchbar">
+      <form id="searchbar-form">
+        <input name="searchedStock" type="text" placeholder="Search for a stock....(ex. GOOGL AAPL)"/>
+        <input type="submit" value="Search"/>
+      </form>
+    </div> <!-- end searchbar -->
+    <div class="charts">
+      <!-- sunburst container -->
+      <div class="sunburst-container">
+        <div id="breadcrumbs"></div>
+        <div id="sunburst"></div>
       </div>
-    </div>
-    
+
+      <div class="line-graph-container">
+        <div id="line-graph">
+          <h1 id="company"></h1>
+          <div id="legend"></div>
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div> <!-- end charts -->
     <script src="./bundle.js"></script>
   </body>
 </html>

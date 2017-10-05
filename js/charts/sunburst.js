@@ -6,8 +6,8 @@ const Sunburst = function(nodeData) {
       radius = (Math.min(width, height) / 2) - 10;
 
   const b = {
-      w: 75,
-      h: 30,
+      w: 100,
+      h: 35,
       s: 3,
       t: 10
   };
@@ -20,7 +20,7 @@ const Sunburst = function(nodeData) {
   const y = d3.scaleSqrt()
       .range([0, radius]);
 
-  const color = d3.scaleOrdinal(d3.schemeCategory20);
+  const color = d3.scaleOrdinal(d3.schemeCategory20c);
 
   const partition = d3.partition();
 
@@ -52,7 +52,7 @@ const Sunburst = function(nodeData) {
           return "#FFF";
         }
         else {
-          return color((d.children ? d : d.parent).data.name);
+          return color(d.data.name);
         }
       })
       .on("click", click)
@@ -61,7 +61,7 @@ const Sunburst = function(nodeData) {
       .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
 
   // setup breadcrumbs
-  // initializeBreadcrumbs();
+  initializeBreadcrumbs();
 
   function click(d) {
     svg.transition()
@@ -82,7 +82,7 @@ const Sunburst = function(nodeData) {
     let parents = getParents(d);
     updateBreadcrumbs(parents);
     // drop opacity of all paths
-    d3.selectAll('path')
+    d3.selectAll('#sunburst svg g path')
       .style('opacity', 0.3);
 
     svg.selectAll('path')
@@ -115,12 +115,12 @@ const Sunburst = function(nodeData) {
     return path;
   }
 
-  // function initializeBreadcrumbs() {
-  //   const trail = d3.select('.sunburst-container #breadcrumbs').append('svg:svg')
-  //                   .attr('width', width)
-  //                   .attr('height', 60)
-  //                   .attr('id', 'trail');
-  // }
+  function initializeBreadcrumbs() {
+    const trail = d3.select('.sunburst-container #breadcrumbs').append('svg:svg')
+                    .attr('width', width)
+                    .attr('height', 60)
+                    .attr('id', 'trail');
+  }
 
   function breadcrumbPoints(d, i) {
     const points = [];
@@ -138,38 +138,47 @@ const Sunburst = function(nodeData) {
   }
 
   function updateBreadcrumbs(nodeArray) {
-    let selector = d3.select('#breadcrumbs');
-    let text = "";
-    for(let i in nodeArray) {
-      text = nodeArray[i].data.size ? `${nodeArray[i].data.name} $${nodeArray[i].data.size}` : `${nodeArray[i].data.name}`;
-      selector.append('h2')
-              .text(text);
-    }
-    // const g = d3.select('#trail')
-    //             .selectAll("g")
-    //             .data(nodeArray, function(d){
-    //               return d.data.name + d.depth;
-    //             });
-    //
-    // const entering = g.enter().append("svg:g");
-    //
-    // entering.append("svg:polygon")
-    //   .attr("points", breadcrumbPoints)
-    //   .style("fill", function(d){
-    //     return color(d.data.name);
-    // });
-    //
-    // // add attributes
-    // entering.append("svg:text")
-    //   .attr("x", (b.w + b.t) / 2)
-    //   .attr("y", b.h / 2)
-    //   .attr("dy", "0.35em")
-    //   .attr("text-anchor", "middle")
-    //   .text(function(d) {
-    //     return d.name;
-    // });
-    //
-    // d3.select("#trail").style("visibility", "");
+    // let selector = d3.select('#breadcrumbs');
+    // let text = "";
+    // for(let i in nodeArray) {
+    //   text = nodeArray[i].data.size ? `${nodeArray[i].data.name} $${nodeArray[i].data.size}` : `${nodeArray[i].data.name}`;
+    //   selector.append('h2')
+    //           .text(text);
+    // }
+
+    const g = d3.select('#trail')
+                .selectAll("g")
+                .data(nodeArray, function(d){
+                  return d.data.name + d.depth;
+                });
+
+    const entering = g.enter().append("svg:g");
+
+    entering.append("svg:polygon")
+      .attr("points", breadcrumbPoints)
+      .style("fill", function(d){
+        return color(d.data.name);
+    });
+
+    // add attributes
+    entering.append("svg:text")
+      .style('fill', '#FFF')
+      .attr("x", (b.w + b.t) / 2)
+      .attr("y", b.h / 2)
+      .attr("dy", "0.35em")
+      .attr("text-anchor", "middle")
+      .text(function(d) {
+        return d.data.name;
+    });
+
+    d3.select('#trail').selectAll('#trail g')
+      .attr('transform', function(d){
+        return `translate(${((d.depth - 1) * (b.w + b.s))}, 0)`
+    });
+
+    g.exit().remove();
+
+    d3.select("#trail").style("visibility", "");
   }
 
   d3.select(self.frameElement).style("height", height + "px");

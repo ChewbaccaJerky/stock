@@ -13,7 +13,7 @@ const LineGraph = (data) => {
 
   // Add padding
   d3.select('#line-graph')
-    .style('padding', '1em');
+    .style('padding', '3em');
 
   let selector = d3.select('#line-graph svg');
   if(selector._groups[0] !== null) {
@@ -23,7 +23,7 @@ const LineGraph = (data) => {
   const symbol = Object.keys(data)[0];
 
   // set size of graph
-  const width = 700,
+  const width = 675,
         height = 400;
 
   // time format
@@ -55,7 +55,7 @@ const LineGraph = (data) => {
   const svg = d3.select('#line-graph').append('svg')
       .attr('width', width)
       .attr('height', height)
-      .style('padding', '3em')
+      .style('padding', '2em')
     .append('g')
 
   function draw(data, symbol) {
@@ -72,11 +72,9 @@ const LineGraph = (data) => {
     });
 
     //sort by date
-    // console.log(data);
     data.sort(function(a,b){
       return a.date-b.date;
     });
-    // console.log(data);
     // scale the range
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain([0, d3.max(data, function(d) {
@@ -90,10 +88,14 @@ const LineGraph = (data) => {
         .attr("class", "line")
         .style('stroke', 'red')
         .attr("d", openLine);
+
+
+
     svg.append("path")
         .data([data])
         .attr("class", "line")
         .attr("d", highLine);
+
     // svg.append("path")
     //     .data([data])
     //     .attr("class", "line")
@@ -107,12 +109,12 @@ const LineGraph = (data) => {
     svg.append('g')
         .attr('class', 'x axis')
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m-%d")));
-        // .selectAll("text")
-        // .style("text-anchor", "end")
-        // .attr("dx", "-.8em")
-        // .attr("dy", ".15em")
-        // .attr("transform", "rotate(-65)");
+        .call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m-%d")))
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-20)");
 
     // add y axis
     svg.append("g")
@@ -124,15 +126,10 @@ const LineGraph = (data) => {
         .text(symbol);
   }
 
-  // function update(newData) {
-  //   let g = d3.select('#line-graph g').data(newData, function(d){
-  //     return d;
-  //   });
-  //
-  //   g.exit().remove();
-  // }
-
   draw(data, symbol);
+
+  //remove loader
+  d3.select('.loader').remove();
   return 0;
 };
 
