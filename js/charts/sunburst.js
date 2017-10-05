@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 const Sunburst = function(nodeData) {
 
-  const width = 500,
-      height = 500,
+  const width = 400,
+      height = 400,
       radius = (Math.min(width, height) / 2) - 10;
 
   const b = {
@@ -77,7 +77,7 @@ const Sunburst = function(nodeData) {
   }
 
   function mouseover(d) {
-    d3.selectAll('h1').remove();
+    d3.selectAll('h2').remove();
     // getAncestors Array sequence
     let parents = getParents(d);
     updateBreadcrumbs(parents);
@@ -96,7 +96,7 @@ const Sunburst = function(nodeData) {
     // d3.select('#trail')
     // .attr('visibility', 'hidden');
 
-    d3.selectAll('h1').remove();
+    d3.selectAll('h2').remove();
 
     d3.selectAll('path')
       .style('opacity', 1);
@@ -142,7 +142,7 @@ const Sunburst = function(nodeData) {
     let text = "";
     for(let i in nodeArray) {
       text = nodeArray[i].data.size ? `${nodeArray[i].data.name} $${nodeArray[i].data.size}` : `${nodeArray[i].data.name}`;
-      selector.append('h1')
+      selector.append('h2')
               .text(text);
     }
     // const g = d3.select('#trail')

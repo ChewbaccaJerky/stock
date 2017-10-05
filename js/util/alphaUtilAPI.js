@@ -1,21 +1,12 @@
 import $ from 'jquery';
 
-let testQuery = "select%20*%20from%20pm.finance%20where%20symbol%3D%22YHOO%22";
+const key = "B2GAJIV5VTL4C0CT";
 
-const fetchEquities = () => ({
-  $.ajax({
+export const fetchStockQuote = (symbol) => {
+  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${symbol}&interval=1min&apikey=${key}`;
+
+  return $.ajax({
     method: "GET",
-    url: "https://query.yahooapis.com/v1/public/yql?"
-    data: {
-      q: testQuery,
-      format: 'json',
-      diagnostics: 'true',
-      
-
-    }
-  })
-});
-
-const fetchEquity = (name) => ({
-
-});
+    url: url
+  });
+};

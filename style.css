@@ -4,10 +4,12 @@ html, body {
 
 body {
   display: flex;
+  justify-content: space-around;
 }
 
 .sunburst-container {
   box-shadow: 1px 1px 2px #888;
+  /*background-color: #E8E8E8;*/
 }
 
 #breadcrumbs {
@@ -22,3 +24,39 @@ body {
 #breadcrumbs h1 {
   color: #555;
 }
+
+/*line graph*/
+#line-graph {
+  box-shadow: 1px 1px 2px #888;
+}
+
+#line-graph #company {
+  color: #0892D0;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+/*.high-line {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+}
+
+.close-line {
+  fill: none;
+  stroke: red;
+  stroke-width: 2px;
+}
+.open-line {
+  fill: none;
+  stroke: green;
+  stroke-width: 2px;
+}
+.low-line {
+  fill: none;
+  stroke: yellow;
+  stroke-width: 2px;
+}*/

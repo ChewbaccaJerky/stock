@@ -9772,85 +9772,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 172 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _d = __webpack_require__(171);
-
-var d3 = _interopRequireWildcard(_d);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var Bar = function Bar(nodeData) {
-
-  // var vis = d3.select('#bar-graph'),
-  //   WIDTH = 1000,
-  //   HEIGHT = 500,
-  //   MARGINS = {
-  //     top: 20,
-  //     right: 20,
-  //     bottom: 20,
-  //     left: 50
-  //   },
-  //   xRange = d3.scaleOrdinal().rangeRoundBands([MARGINS.left, WIDTH - MARGINS.right], 0.1).domain(nodeData.map(function (d) {
-  //     return d.x;
-  //   })),
-  //
-  //
-  //   yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([0,
-  //     d3.max(nodeData, function (d) {
-  //       return d.y;
-  //     })
-  //   ]),
-  //
-  //   xAxis = d3.svg.axis()
-  //     .scale(xRange)
-  //     .tickSize(5)
-  //     .tickSubdivide(true),
-  //
-  //   yAxis = d3.svg.axis()
-  //     .scale(yRange)
-  //     .tickSize(5)
-  //     .orient("left")
-  //     .tickSubdivide(true);
-  //
-  //
-  // vis.append('svg:g')
-  //   .attr('class', 'x axis')
-  //   .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
-  //   .call(xAxis);
-  //
-  // vis.append('svg:g')
-  //   .attr('class', 'y axis')
-  //   .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
-  //   .call(yAxis);
-  //
-  // vis.selectAll('rect')
-  //   .data(nodeData)
-  //   .enter()
-  //   .append('rect')
-  //   .attr('x', function (d) {
-  //     return xRange(d.x);
-  //   })
-  //   .attr('y', function (d) {
-  //     return yRange(d.y);
-  //   })
-  //   .attr('width', xRange.rangeBand())
-  //   .attr('height', function (d) {
-  //     return ((HEIGHT - MARGINS.bottom) - yRange(d.y));
-  //   })
-  //   .attr('fill', 'grey');
-};
-exports.default = Bar;
-
-/***/ }),
+/* 172 */,
 /* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9869,8 +9791,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var Sunburst = function Sunburst(nodeData) {
 
-  var width = 500,
-      height = 500,
+  var width = 400,
+      height = 400,
       radius = Math.min(width, height) / 2 - 10;
 
   var b = {
@@ -9939,7 +9861,7 @@ var Sunburst = function Sunburst(nodeData) {
   }
 
   function mouseover(d) {
-    d3.selectAll('h1').remove();
+    d3.selectAll('h2').remove();
     // getAncestors Array sequence
     var parents = getParents(d);
     updateBreadcrumbs(parents);
@@ -9955,7 +9877,7 @@ var Sunburst = function Sunburst(nodeData) {
     // d3.select('#trail')
     // .attr('visibility', 'hidden');
 
-    d3.selectAll('h1').remove();
+    d3.selectAll('h2').remove();
 
     d3.selectAll('path').style('opacity', 1);
   }
@@ -9999,7 +9921,7 @@ var Sunburst = function Sunburst(nodeData) {
     var text = "";
     for (var i in nodeArray) {
       text = nodeArray[i].data.size ? nodeArray[i].data.name + " $" + nodeArray[i].data.size : "" + nodeArray[i].data.name;
-      selector.append('h1').text(text);
+      selector.append('h2').text(text);
     }
     // const g = d3.select('#trail')
     //             .selectAll("g")
@@ -10132,13 +10054,15 @@ var _sunburst = __webpack_require__(173);
 
 var _sunburst2 = _interopRequireDefault(_sunburst);
 
-var _bar = __webpack_require__(172);
+var _line_graph = __webpack_require__(469);
 
-var _bar2 = _interopRequireDefault(_bar);
+var _line_graph2 = _interopRequireDefault(_line_graph);
 
 var _yahoo_api_util = __webpack_require__(175);
 
 var yahooApiUtil = _interopRequireWildcard(_yahoo_api_util);
+
+var _alphaUtilAPI = __webpack_require__(468);
 
 var _data = __webpack_require__(174);
 
@@ -10148,21 +10072,41 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _sunburst2.default)(_data2.default);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// yahooApiUtil.fetchStockQuotes().then((res)=> {
-//   let barInfo = parseForBar(res.query.results.quote);
-//   Bar(barInfo);
-// });
-//
-// const parseForBar = (quotes) => {
-//   let barInfo = [];
-//   let temp = {};
-//   for(let i in quotes) {
-//     temp = {"name": quotes[i].symbol, "value": parseInt(quotes[i].Ask)};
-//     barInfo.push(temp);
-//   }
-// };
+(0, _sunburst2.default)(_data2.default);
+var STOCK_SYMS = ["AAPL", "GOOGL", "SQ", "TSLA", "VMW"];
+var temp = "";
+var i = 0;
+var stopVar = setInterval(function () {
+  makeLineGraph(STOCK_SYMS[0]);
+  temp = STOCK_SYMS.shift();
+  STOCK_SYMS.push(temp);
+  i++;
+  // if(i === 10) {
+  //   console.log("STOPPP!!!!");
+  //   clearInterval(stopVar);
+  // }
+}, 3000);
+
+window.fetchStockQuote = _alphaUtilAPI.fetchStockQuote;
+
+function makeLineGraph(symbol) {
+  (0, _alphaUtilAPI.fetchStockQuote)(symbol).then(function (res) {
+    var stockInfo = res["Monthly Time Series"];
+    var parseArray = Object.keys(stockInfo).map(function (key) {
+
+      return {
+        "date": key,
+        "open": stockInfo[key]["1. open"],
+        "high": stockInfo[key]["2. high"],
+        "low": stockInfo[key]["3. low"],
+        "close": stockInfo[key]["4. close"]
+      };
+    });
+    (0, _line_graph2.default)(_defineProperty({}, symbol, parseArray));
+  });
+}
 
 /***/ }),
 /* 177 */
@@ -33483,6 +33427,180 @@ if ( !noGlobal ) {
 return jQuery;
 } );
 
+
+/***/ }),
+/* 468 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchStockQuote = undefined;
+
+var _jquery = __webpack_require__(467);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var key = "B2GAJIV5VTL4C0CT";
+
+var fetchStockQuote = exports.fetchStockQuote = function fetchStockQuote(symbol) {
+  var url = "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=" + symbol + "&interval=1min&apikey=" + key;
+
+  return _jquery2.default.ajax({
+    method: "GET",
+    url: url
+  });
+};
+
+/***/ }),
+/* 469 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _d = __webpack_require__(171);
+
+var d3 = _interopRequireWildcard(_d);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var LineGraph = function LineGraph(data) {
+
+  // console.log(d3);
+  // x:
+  // date
+  // y:
+  // open
+  // high
+  // close
+  // low
+
+  // Add padding
+  d3.select('#line-graph').style('padding', '1em');
+
+  var selector = d3.select('#line-graph svg');
+  if (selector._groups[0] !== null) {
+    selector.remove();
+  }
+
+  var symbol = Object.keys(data)[0];
+
+  // set size of graph
+  var width = 700,
+      height = 400;
+
+  // time format
+  var parseTime = d3.timeParse("%Y-%d-%m");
+
+  // set range and domain
+  var x = d3.scaleTime().range([0, width]);
+  var y = d3.scaleLinear().range([height, 0]);
+
+  // Define lines
+  var openLine = d3.line().x(function (d) {
+    return x(d.date);
+  }).y(function (d) {
+    return y(d.open);
+  });
+
+  var highLine = d3.line().x(function (d) {
+    return x(d.date);
+  }).y(function (d) {
+    return y(d.high);
+  });
+
+  var closeLine = d3.line().x(function (d) {
+    return x(d.date);
+  }).y(function (d) {
+    return y(d.close);
+  });
+
+  var lowLine = d3.line().x(function (d) {
+    return x(d.date);
+  }).y(function (d) {
+    return y(d.low);
+  });
+
+  // Append SVG to #line-graph div
+  var svg = d3.select('#line-graph').append('svg').attr('width', width).attr('height', height).style('padding', '3em').append('g');
+
+  function draw(data, symbol) {
+    data = data[symbol];
+
+    //format data
+    data.forEach(function (d) {
+      // console.log(d.date);
+      d.date = parseTime(d.date);
+      d.open = +d.open;
+      d.high = +d.high;
+      d.low = +d.low;
+      d.close = +d.close;
+    });
+
+    //sort by date
+    // console.log(data);
+    data.sort(function (a, b) {
+      return a.date - b.date;
+    });
+    // console.log(data);
+    // scale the range
+    x.domain(d3.extent(data, function (d) {
+      return d.date;
+    }));
+    y.domain([0, d3.max(data, function (d) {
+      return Math.max(d.open, d.high, d.low, d.close);
+    })]);
+
+    // Add the lines path.
+    svg.append("path").data([data]).attr("class", "line").style('stroke', 'red').attr("d", openLine);
+    svg.append("path").data([data]).attr("class", "line").attr("d", highLine);
+    // svg.append("path")
+    //     .data([data])
+    //     .attr("class", "line")
+    //     .attr("d", lowLine);
+    // svg.append("path")
+    //     .data([data])
+    //     .attr("class", "line")
+    //     .attr("d", closeLine);
+
+    // add x axis
+    svg.append('g').attr('class', 'x axis').attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m-%d")));
+    // .selectAll("text")
+    // .style("text-anchor", "end")
+    // .attr("dx", "-.8em")
+    // .attr("dy", ".15em")
+    // .attr("transform", "rotate(-65)");
+
+    // add y axis
+    svg.append("g").attr('class', 'y axis').call(d3.axisLeft(y));
+
+    // Add Symbol Label
+    d3.select('#company').text(symbol);
+  }
+
+  // function update(newData) {
+  //   let g = d3.select('#line-graph g').data(newData, function(d){
+  //     return d;
+  //   });
+  //
+  //   g.exit().remove();
+  // }
+
+  draw(data, symbol);
+  return 0;
+};
+
+exports.default = LineGraph;
 
 /***/ })
 /******/ ]);
