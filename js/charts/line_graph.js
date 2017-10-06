@@ -1,8 +1,6 @@
 import * as d3 from 'd3';
 
 const LineGraph = (data) => {
-
-  // console.log(d3);
   // x:
     // date
   // y:
@@ -56,7 +54,9 @@ const LineGraph = (data) => {
       .attr('width', width)
       .attr('height', height)
       .style('padding', '2em')
-    .append('g')
+    .append('g');
+
+
 
   function draw(data, symbol) {
     data = data[symbol];
@@ -124,9 +124,13 @@ const LineGraph = (data) => {
     // Add Symbol Label
     d3.select('#company')
         .text(symbol);
+
+    d3.select('.legend')
+      .attr('visibility', '');
   }
 
   draw(data, symbol);
+
 
   //remove loader
   d3.select('.loader').remove();

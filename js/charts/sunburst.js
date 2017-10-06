@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 const Sunburst = function(nodeData) {
 
-  const width = 400,
+  const width = 450,
       height = 400,
       radius = (Math.min(width, height) / 2) - 10;
 
@@ -120,6 +120,10 @@ const Sunburst = function(nodeData) {
                     .attr('width', width)
                     .attr('height', 60)
                     .attr('id', 'trail');
+
+          trail.append('svg:text')
+                .attr('id', 'endlabel')
+                .style('fill', '#000');
   }
 
   function breadcrumbPoints(d, i) {
@@ -175,8 +179,27 @@ const Sunburst = function(nodeData) {
       .attr('transform', function(d){
         return `translate(${((d.depth - 1) * (b.w + b.s))}, 0)`
     });
+    // console.log(nodeArray[nodeArray.length-1].depth === 2);
+    // Now move and update the percentage at the end.
 
     g.exit().remove();
+
+    if(nodeArray.length == 2) {
+      d3.select("#trail").select("#endlabel")
+      .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+      .attr("y", b.h / 2)
+      .attr("dy", "0.35em")
+      .attr("text-anchor", "middle")
+      .text('$'+ nodeArray[nodeArray.length-1].data.size);
+    }
+    else {
+      d3.select("#trail").select("#endlabel")
+      .attr("x", (nodeArray.length + 0.5) * (b.w + b.s))
+      .attr("y", b.h / 2)
+      .attr("dy", "0.35em")
+      .attr("text-anchor", "middle")
+      .text('');
+    }
 
     d3.select("#trail").style("visibility", "");
   }

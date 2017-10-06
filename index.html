@@ -16,7 +16,7 @@
     <div class="searchbar">
       <h1>STOCK</h1>
       <form id="searchbar-form">
-        <input name="searchedStock" type="text" placeholder="Search for a stock....(ex. GOOGL AAPL)"/>
+        <input name="searchedStock" type="text" placeholder="Search (googl aapl tsla)"/>
         <input type="submit" value="Search"/>
       </form>
       <div class="links">
@@ -34,8 +34,13 @@
 
       <div class="line-graph-container">
         <div id="line-graph">
-          <h1 id="company"></h1>
-          <div id="legend"></div>
+          <div class="info">
+            <h1 id="company"></h1>
+            <div class="legend">
+              <h4 id="open">Open</h4>
+              <h4 id="high">High</h4>
+            </div>
+          </div>
           <div class="loader"></div>
         </div>
       </div>
