@@ -2,19 +2,21 @@
 
 
 ## Background, Overview, Goals
-Stock is an aesthetically pleasing and informative web application which is backed with current and historical data of equity. Thoroughly implementing D3's data visualization.
+Stock is an intuitive and informative web application which is backed with predictive and historical data of stocks. Thoroughly implementing D3's data visualization.
 
-User will be able to search companies and time frames of a particular stock.
+User will be able to search a company's particular stock.
 
 ## Functionality & MVP
 In Stock, users are able to:
-  - Search for a stock by name and/or timeframe
-  - Real time update of stock
+  - Connected to API and rendering current data
+  - Search stock by name
   - Multiple data visualization graphs
   - Dynamic dataset changes shown on graphs
 
 In addition, this project will include:
+  - Real time update of stock
   - An about modal describing base functionality
+  - search by timeframe
 
 ## Wireframes
 
