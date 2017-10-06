@@ -23,8 +23,8 @@ const LineGraph = (data) => {
   const symbol = Object.keys(data)[0];
 
   // set size of graph
-  const width = 675,
-        height = 400;
+  const width = 650,
+        height = 350;
 
   // time format
   const parseTime = d3.timeParse("%Y-%d-%m");

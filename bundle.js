@@ -33498,8 +33498,8 @@ var LineGraph = function LineGraph(data) {
   var symbol = Object.keys(data)[0];
 
   // set size of graph
-  var width = 675,
-      height = 400;
+  var width = 650,
+      height = 350;
 
   // time format
   var parseTime = d3.timeParse("%Y-%d-%m");
