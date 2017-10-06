@@ -5,29 +5,17 @@ import * as yahooApiUtil from './util/yahoo_api_util';
 import {fetchStockQuote} from './util/alphaUtilAPI';
 import STOCK_DATA from './data';
 
-const STOCK_SYMS = ["AAPL", "GOOGL", "SQ", "TSLA", "VMW"];
-
 Sunburst(STOCK_DATA);
 makeLineGraph(STOCK_SYMS[0]);
-let temp = "";
-let i = 0
-// let stopVar = setInterval(function(){
-//   makeLineGraph(STOCK_SYMS[0]);
-//   temp = STOCK_SYMS.shift();
-//   STOCK_SYMS.push(temp);
-//   i++;
-// }, 3000);
 
+// Listen to Searchbar submit
 document.getElementById('searchbar-form').addEventListener('submit', (e)=>{
   e.preventDefault();
   const searchParams = e.currentTarget.searchedStock.value;
   makeLineGraph(searchParams.toUpperCase());
 });
 
-
-
-window.fetchStockQuote = fetchStockQuote;
-
+// Parse Response Data and Create Graph
 function makeLineGraph(symbol){
   fetchStockQuote(symbol).then(res => {
     let stockInfo = res["Monthly Time Series"];

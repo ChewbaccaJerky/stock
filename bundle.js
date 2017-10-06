@@ -20505,27 +20505,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var STOCK_SYMS = ["AAPL", "GOOGL", "SQ", "TSLA", "VMW"];
-
 (0, _sunburst2.default)(_data2.default);
 makeLineGraph(STOCK_SYMS[0]);
-var temp = "";
-var i = 0;
-// let stopVar = setInterval(function(){
-//   makeLineGraph(STOCK_SYMS[0]);
-//   temp = STOCK_SYMS.shift();
-//   STOCK_SYMS.push(temp);
-//   i++;
-// }, 3000);
 
+// Listen to Searchbar submit
 document.getElementById('searchbar-form').addEventListener('submit', function (e) {
   e.preventDefault();
   var searchParams = e.currentTarget.searchedStock.value;
   makeLineGraph(searchParams.toUpperCase());
 });
 
-window.fetchStockQuote = _alphaUtilAPI.fetchStockQuote;
-
+// Parse Response Data and Create Graph
 function makeLineGraph(symbol) {
   (0, _alphaUtilAPI.fetchStockQuote)(symbol).then(function (res) {
     var stockInfo = res["Monthly Time Series"];
