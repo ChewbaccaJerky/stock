@@ -5,8 +5,9 @@ import * as yahooApiUtil from './util/yahoo_api_util';
 import {fetchStockQuote} from './util/alphaUtilAPI';
 import STOCK_DATA from './data';
 
+
 Sunburst(STOCK_DATA);
-makeLineGraph(STOCK_SYMS[0]);
+makeLineGraph("GOOGL");
 
 // Listen to Searchbar submit
 document.getElementById('searchbar-form').addEventListener('submit', (e)=>{

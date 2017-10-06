@@ -20506,7 +20506,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 (0, _sunburst2.default)(_data2.default);
-makeLineGraph(STOCK_SYMS[0]);
+makeLineGraph("GOOGL");
 
 // Listen to Searchbar submit
 document.getElementById('searchbar-form').addEventListener('submit', function (e) {
