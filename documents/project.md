@@ -28,13 +28,14 @@ This project will be implemented with the following technologies:
   - `Webpack` to bundle and serve the various scripts
 
 In addition to webpack's entry file `bundle.js` there will be:
+
   - `alphaUtilAPI.js`: this script will handle the ajax calls to Alpha Vantage for their stock data.
 
-  - `searchAPIUtil.js`: this script will make the ajax calls regarding different params.
+  - `sunburst.js`: this will have the dataset of top 5 tech companies integrated with D3's sunburst.
 
-  - `graph.js`: this script will be the model to create a graph and store the dataset.
+  - `line-graph.js`: this script will be the model to create a graph and store the dataset.
 
-  - `events.js`: this script will hold all the event listeners when it comes to listening to data change.
+  - `stock.js`: will be the entry file which will render all the components.
 
 ## Implementation Timeline
 ** Over The Weekend **
@@ -47,15 +48,16 @@ In addition to webpack's entry file `bundle.js` there will be:
   - Finish `alphaUtilAPI.js`
 
 ** Day 2 ** : Dedicate majority of the time to rendering the dataset into the graphs.
-  - Finish `graph.js`
+  - Finish `sunburst.js`
   - Incorporate D3 to add visualization
 
 ** Day 3 ** : Handle search criterias of stock names and date ranges.
-  - Try to work and finish `searchAPIUtil.js`
+  - Finish `line-graph.js`
+  - Create a search bar to render new stock data on submit.
   - Update page when search is finished
 
 ** Day 4 ** : Add constant updates of stock to show real time changes of equity information. Implement a beautiful UI.
-  - Finish `events.js` have it do continual updates of stock info.
+  - Finish event listeners and user interactions with page.
   - Style buttons, graphs, and page.
 
 ## Bonus features

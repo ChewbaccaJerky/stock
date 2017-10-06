@@ -15,6 +15,10 @@ body {
   height: 100vh;
 }
 
+#sunburst svg g path {
+  cursor: pointer;
+}
+
 input[type="submit"] {
   cursor: pointer;
 }
