@@ -33576,7 +33576,7 @@ var LineGraph = function LineGraph(data) {
     //     .attr("d", closeLine);
 
     // add x axis
-    svg.append('g').attr('class', 'x axis').attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%Y-%m-%d"))).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-20)");
+    svg.append('g').attr('class', 'x axis').attr("transform", "translate(0," + height + ")").call(d3.axisBottom(x).tickFormat(d3.timeFormat("%d-%m-%Y"))).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", ".15em").attr("transform", "rotate(-20)");
 
     // add y axis
     svg.append("g").attr('class', 'y axis').call(d3.axisLeft(y));

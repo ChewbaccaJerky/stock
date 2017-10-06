@@ -31,7 +31,7 @@ body {
   padding: 0.5em;
   font-size: 1em;
   margin: 0;
-  color: #0892D0;
+  color: rgba(8, 146, 208, 0.7);
   transition: border 0.5s;
   text-transform: uppercase;
 }
@@ -39,8 +39,15 @@ body {
 .searchbar form input[type="text"]:focus, .searchbar form input[type="submit"]:focus{
   outline: none;
   border-bottom: 3px solid #0892D0;
-  margin: 0;
 }
+
+.searchbar form input[type="submit"]:hover {
+  outline: none;
+  color: rgba(8, 146, 208, 0.7);
+  background-color: #F5F5F5;
+
+}
+
 
 .searchbar form input[type="submit"] {
   border: none;
@@ -48,7 +55,7 @@ body {
   font-size: 1em;
   background-color: #0892D0;
   color: #FFF;
-  transition: border 0.5s;
+  transition: color 0.5s, background-color 0.5s;
 }
 
 
